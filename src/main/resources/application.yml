@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: spring-service-template
+  profiles:
+    default: local
+  cloud:
+    config:
+      enabled: false
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+---
+spring:
+  config:
+    activate:
+      on-profile: config-server
+    import: "configserver:${CONFIG_SERVER_URL:http://localhost:8888}"
+  cloud:
+    config:
+      enabled: true

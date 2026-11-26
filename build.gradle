@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '4.1.2'
+}
+
+group = 'com.nirvana'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // BOM (Bill of Materials) - 의존성 버전 일괄 관리
+    implementation platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+    implementation platform('org.springframework.cloud:spring-cloud-dependencies:2025.1.4')
+    compileOnly platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+    annotationProcessor platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+    // =========================================================================
+    // Spring Boot & Spring Cloud - 웹 API, 모니터링, 중앙 설정
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'     // Spring MVC 기반 REST API와 웹 서버
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'   // 헬스체크, 메트릭 등 운영 상태 확인
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'  // Config Server에서 서비스 설정 가져오기
+    // =========================================================================
+    // API 문서화 - OpenAPI / Swagger UI
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.2.0'  // OpenAPI 문서 생성 및 Swagger UI 제공
+    // =========================================================================
+    // 반복 코드 줄이기 - Lombok
+    compileOnly 'org.projectlombok:lombok'                                   // 컴파일할 때 Lombok 애너테이션 사용
+    annotationProcessor 'org.projectlombok:lombok'                           // 컴파일 중 Getter, Setter, Builder 등 생성
+}
