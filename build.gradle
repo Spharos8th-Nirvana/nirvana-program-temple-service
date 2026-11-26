@@ -27,6 +27,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'     // Spring MVC 기반 REST API와 웹 서버
     implementation 'org.springframework.boot:spring-boot-starter-actuator'   // 헬스체크, 메트릭 등 운영 상태 확인
     implementation 'org.springframework.cloud:spring-cloud-starter-config'  // Config Server에서 서비스 설정 가져오기
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'  // Eureka에 서비스 등록
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'  // JPA로 MySQL 사용
+    runtimeOnly 'com.mysql:mysql-connector-j'  // MySQL 드라이버
     // =========================================================================
     // API 문서화 - OpenAPI / Swagger UI
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.2.0'  // OpenAPI 문서 생성 및 Swagger UI 제공
@@ -34,4 +37,8 @@ dependencies {
     // 반복 코드 줄이기 - Lombok
     compileOnly 'org.projectlombok:lombok'                                   // 컴파일할 때 Lombok 애너테이션 사용
     annotationProcessor 'org.projectlombok:lombok'                           // 컴파일 중 Getter, Setter, Builder 등 생성
+}
+
+bootJar {
+    archiveFileName = 'app.jar'  // Docker가 실행할 파일 이름을 항상 같게 고정
 }
