@@ -1,11 +1,26 @@
+server:
+  port: 8081
+
 spring:
   application:
-    name: spring-service-template
+    name: program-temple-service
   profiles:
     default: local
   cloud:
     config:
       enabled: false
+  datasource:
+    # 접속 정보는 코드에 넣지 않고 환경변수로 받는다 (아래 값은 내 PC 로컬용 기본값)
+    url: ${DB_URL:jdbc:mysql://localhost:3306/nirvana_temple?serverTimezone=Asia/Seoul&characterEncoding=UTF-8}
+    username: ${DB_USERNAME:}
+    password: ${DB_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: none   # 테이블은 DDL로 이미 만들어 둠. 앱이 스키마를 바꾸지 않는다
+
+eureka:
+  client:
+    enabled: false   # 로컬에서는 Eureka 없이 실행 (서버는 aws 프로필에서 켠다)
 
 springdoc:
   api-docs:
@@ -23,6 +38,23 @@ springdoc:
     enabled: true
   swagger-ui:
     enabled: true
+---
+spring:
+  config:
+    activate:
+      on-profile: aws
+
+eureka:
+  client:
+    enabled: true
+    service-url:
+      defaultZone: ${EUREKA_URL:http://eureka:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+
+springdoc:
+  api-docs:
+    enabled: true   # Gateway의 Swagger 통합 화면이 읽는 문서
 ---
 spring:
   config:
